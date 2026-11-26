@@ -1,0 +1,32 @@
+# Simulation
+*.vcd
+*.fst
+*.ghw
+*.log
+*.o
+*.out
+
+# Synthesis
+build/*
+*/build/*
+!build/Makefile
+!*/build/Makefile
+impl/
+output/
+*.fs
+*.bin
+
+# Temporary files
+*.tmp
+*.bak
+*~
+
+# VS Code local settings
+.vscode/
+
+# Operating system
+Thumbs.db
+.DS_Store
+# La tabla de la ROM del profesor se necesita para simular y sintetizar
+!build/bcdtable.txt
+!*/build/bcdtable.txt
