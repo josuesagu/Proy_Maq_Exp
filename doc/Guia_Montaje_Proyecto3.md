@@ -163,20 +163,23 @@ Si al presionar `A 2 D` se enciende un LED que no es el LED0, avísenme: puede q
 
 ## 7. Pruebas funcionales con el diseño completo
 
-Secuencia de teclas: producto → monedas → **D**. Después de una entrega hay que presionar `*` (RESTART) antes de otra compra.
+Los displays muestran el producto, las monedas y el vuelto (`_` = dígito apagado):
+reposo `A _ _ 2` · entrega `A 0 5 0` · devolución `A d _ 2`. Secuencia de teclas: producto → monedas → **D**. Después de una entrega hay que presionar `*` (RESTART) antes de otra compra.
 
 | # | Teclas | Resultado esperado |
 |---|---|---|
-| 1 | Reset (botón de la placa) | displays `000`, LEDs de entrega y devolución apagados |
-| 2 (a) | `C` `4` `D` | LED2 (C) encendido, display `000` (pago exacto) → `*` |
-| 3 (b) | `A` `2` `D` | LED0 (A) encendido, display `050` (vuelto) → `*` |
-| 4 | `B` `3` `D` | LED1 (B) encendido, display `025` → `*` |
-| 5 (c) | `C` `3` `D` | LED externo de devolución ~2 s, ningún LED de entrega |
-| 6 (d) | `A` `2` `D` `*` (tres veces) | tras la 3.ª compra se enciende LED3 (A agotado) |
-| 7 (d) | `A` `2` `D` | la 4.ª compra devuelve las monedas (LED externo ~2 s) |
-| 8 | `B` `3` `D` | B todavía se entrega: el inventario de B no se borró |
-| 9 | Reset | LED3 se apaga: el inventario volvió a 3 |
-| 10 | `A` `2` `D` y luego `*` en lugar de esperar | vuelve a reposo sin tocar el inventario |
+| 1 | Reset (botón de la placa) | displays apagados, LEDs de entrega y devolución apagados |
+| 2 | `C` | display `C _ _ 0` |
+| 3 | `4` | display `C _ _ 4` |
+| 4 (a) | `D` | LED2 (C) encendido, display `C 0 0 0` (pago exacto) → `*` |
+| 5 (b) | `A` `2` `D` | LED0 (A) encendido, display `A 0 5 0` (vuelto) → `*` |
+| 6 | `B` `3` `D` | LED1 (B) encendido, display `b 0 2 5` → `*` |
+| 7 (c) | `C` `3` `D` | LED externo de devolución ~2 s, display `C d _ 3`, ningún LED de entrega |
+| 8 (d) | `A` `2` `D` `*` (tres veces) | tras la 3.ª compra se enciende LED3 (A agotado) |
+| 9 (d) | `A` `2` `D` | la 4.ª compra devuelve las monedas (LED externo ~2 s) |
+| 10 | `B` `3` `D` | B todavía se entrega: el inventario de B no se borró |
+| 11 | Reset | LED3 se apaga: el inventario volvió a 3 |
+| 12 | `A` `2` `D` y luego `*` | vuelve a reposo sin tocar el inventario |
 
 Anoten el resultado de cada fila en la bitácora.
 

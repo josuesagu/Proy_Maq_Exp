@@ -1,87 +1,74 @@
 # Pendientes del Proyecto 3
 
-Estado al **24 nov 2026**. Entrega: **viernes 4 de diciembre**. Basado en el código ya escrito (`proyecto3.zip`) y en la guía de montaje (`Guia_Montaje_Proyecto3.md`).
-Responsables según el reparto: **A** = Ariel (hardware, lectura, FSM), **J** = Josué (datapath, display, top, simulaciones, diagramas).
+Estado al **25 nov 2026**. Entrega: **viernes 4 de diciembre**. **A** = Ariel, **J** = Josué.
 
 ## Lo que ya está hecho
 
-- Código completo: `teclado_top`, `lectura_teclas`, `fsm_vending`, `datapath_vending`, `temporizador_devolucion`, `vending_core`, `top`, más los módulos reutilizados del P2 y los del profesor.
-- Testbenches que pasan (RTL): `fsm_vending_tb`, `vending_core_tb` (los 4 casos obligatorios), `lectura_teclas_tb`, `display_subsystem_tb`.
-- Síntesis con Yosys sin errores ni latches (`top`, `top_prueba_teclado`, `top_prueba_display`).
-- `.cst` con los pines finales del P2 más los LEDs, `interfaces.md`, estándar de código, README, guía de montaje.
+- **Código completo**, incluido el display extra (25 %): lectura (`teclado_top`, `lectura_teclas`), FSM One-Hot, datapath, temporizador, `vending_core`, `display_vending_src` + `display_4hex`, `top`.
+- **Testbenches RTL que pasan:** `lectura_teclas_tb`, `fsm_vending_tb`, `datapath_vending_tb`, `display_vending_tb`, `display_subsystem_tb`, `vending_core_tb` (los 4 casos del enunciado) y `top_tb` (los 4 casos con teclas simuladas).
+- **Post-síntesis:** `make postall` corre la simulación de netlist de los 5 subsistemas y todas pasan.
+- **Síntesis y place and route del `top` completo:** 0 problemas, Fmax ≈ 59 MHz (el reloj es 27 MHz).
+- Circuito montado y funcionando en la placa (según Ariel).
 
----
-
-## 1. Urgente (esta semana)
-
-| # | Pendiente | Quién | Notas |
-|---|---|---|---|
-| 1 | Subir el esqueleto a GitHub y dar acceso a ambos | J | Comandos en el mensaje anterior. `make synth` desde `src/build` para confirmar el entorno |
-| 2 | Montar el hardware según la guía (displays → teclado → LED externo) | A | Probar cada paso: `top_prueba_display`, `top_prueba_teclado`, luego `make all` |
-| 3 | Comprobar la serigrafía de los LEDs internos (LED0 = pin 10 … LED5 = pin 16) | A | Si no coincide, ajustar el `.cst` |
-| 4 | **Place and route** del `top` completo (`make pnr`) y revisar frecuencia ≥ 27 MHz | J | No se ha podido correr en el sandbox; el P2 dio ~37 MHz |
-| 5 | Prueba en placa con la tabla de la sección 7 de la guía (10 filas) | A + J | Anotar resultados para la bitácora |
-| 6 | Diagrama de estados, tabla de transiciones y ecuaciones de la FSM | A + J | Partir de `Proyecto3_FSM_Borrador.md` y del comentario de `fsm_vending.sv`. Es lo que preguntan en el oral |
-
-## 2. Código por escribir
-
-| # | Pendiente | Quién | Prioridad |
-|---|---|---|---|
-| 7 | `datapath_vending_tb`: probar el datapath solo (precios, crédito = monedas × 100, signo de la resta, inventario). Hoy solo se prueba dentro de `vending_core_tb` | J | Alta (el enunciado pide simular cada subsistema) |
-| 8 | Objetivos en el Makefile para **simulación post-síntesis y post-place-and-route** (netlist + `cells_sim.v`, como en el P2) | J | Alta |
-| 9 | `top_tb`: testbench del sistema completo con teclado (usar `defparam` para acortar el DeBounce, como en el P2) | J | Media |
-| 10 | **Display extra (25 %):** código de producto, monedas y vuelto según el estado de la FSM. Hay que definir el protocolo del grupo | J (diseño con A) | Baja: recortar si el tiempo aprieta |
-| 11 | Si el teclado vuelve a fallar en placa: `top_diag_teclado` (existe del P2, en `cambios_repo6`) | A | Solo si hace falta |
-
-## 3. Simulaciones por subsistema (entregable)
-
-El enunciado pide RTL, post-síntesis y post-PnR **por subsistema**. Tabla mínima:
-
-| Subsistema | RTL | Post-síntesis | Post-PnR |
-|---|---|---|---|
-| 4.1 Lectura (`lectura_teclas`; `teclado_top` con DeBounce acortado) | ✔ | ☐ | ☐ |
-| 4.2 FSM (`fsm_vending_tb`) | ✔ | ☐ | ☐ |
-| 4.3 Aritmética (`datapath_vending_tb`) | ☐ | ☐ | ☐ |
-| 4.4 Display (`display_subsystem_tb`) | ✔ | ☐ | ☐ |
-| Sistema (`vending_core_tb`, los 4 casos) | ✔ | ☐ | ☐ |
-
-Guardar capturas de GTKWave de cada una en `doc/mediciones/`. **Pregunta pendiente al profesor:** cómo espera la simulación post-PnR (el flujo abierto no la genera directamente).
-
-## 4. Documentación
+## 1. Esta semana: pruebas en la placa
 
 | # | Pendiente | Quién |
 |---|---|---|
-| 12 | Diagramas por subsistema (4.1 a 4.4) y plan general del sistema, en `doc/diagramas/` | J (FSM con A) |
-| 13 | **Bitácora individual a mano**, con firma semanal del asistente. Incluir la justificación del ancho de 11 bits (`crédito − precio` va de −400 a +750) | A y J, cada uno la suya |
-| 14 | Completar `referencias.md` y el `README.md` final | J |
-| 15 | Verificar el formato de entrega en el PDF del enunciado (repo, zip, fecha y hora) | J |
+| 1 | Cargar el diseño final (`make all`) y correr la tabla de pruebas de la sección 7 de la guía de montaje (12 filas). Anotar resultado de cada una | A + J |
+| 2 | Verificar el orden de los 6 LEDs internos (LED0–LED2 = entrega A, B, C; LED3–LED5 = agotado A, B, C) | A |
+| 3 | Verificar el display extra: letras `A`, `b`, `C`, `d` legibles y dígitos apagados donde corresponde | A |
+| 4 | Si algo falla: anotar el síntoma exacto (teclas, LED, display) y pasármelo | A |
 
-## 5. Preparación del oral (FSM)
+## 2. Simulaciones por subsistema (entregable)
+
+| Subsistema | RTL | Post-síntesis | Post-PnR |
+|---|---|---|---|
+| 4.1 Lectura (`lectura_teclas`) | ✔ | ✔ | ☐ |
+| 4.2 FSM (`fsm_vending_tb`) | ✔ | ✔ | ☐ |
+| 4.3 Aritmética (`datapath_vending_tb`) | ✔ | ✔ | ☐ |
+| 4.4 Display (`display_vending_tb`, `display_subsystem_tb`) | ✔ | ✔ (`display_vending_src`) | ☐ |
+| Sistema (`vending_core_tb`, `top_tb`) | ✔ | ✔ (`vending_core`) | ☐ |
+
+| # | Pendiente | Quién |
+|---|---|---|
+| 5 | Correr `make postall` en su máquina (si `yosys-config` falla en Windows: `make postall CELLS_SIM=<ruta>/gowin/cells_sim.v`) y guardar capturas de GTKWave en `doc/mediciones/` | J |
+| 6 | **Post-place-and-route: preguntar al profesor qué acepta.** El `nextpnr` abierto no genera una netlist simulable (sus celdas físicas SLICE e IOB no tienen modelo y los pines no quedan conectados a los puertos). Evidencia que sí hay: `pnr_tangnano9k.log` (uso de recursos, Fmax 59 MHz, pines del `.cst`). Si el profesor exige simulación, la alternativa es desempacar el bitstream con `gowin_unpack` y simular esa netlist; es posible pero laborioso, y lo armamos solo si lo piden | J |
+
+## 3. Documentación
+
+| # | Pendiente | Quién |
+|---|---|---|
+| 7 | Diagrama de estados, tabla de transiciones y ecuaciones de la FSM (partir de `Proyecto3_FSM_Borrador.md` y del encabezado de `fsm_vending.sv`) | A + J |
+| 8 | Diagramas por subsistema (4.1 a 4.4), diagrama del sistema completo y plan general, en `doc/diagramas/` | J |
+| 9 | **Bitácora individual a mano**, firmada semanalmente. Incluir la justificación del ancho de 11 bits (`crédito − precio` va de −400 a +750) y el protocolo del display extra | A y J |
+| 10 | Completar `referencias.md`; revisar `README.md` | J |
+| 11 | Verificar el formato de entrega en el PDF del enunciado (repo, zip, fecha y hora) | J |
+| 12 | Subir los cambios nuevos al repo (zip adjunto) y revisar que `make test`, `make synth` y `make postall` corran desde cero | J |
+
+## 4. Preparación del oral (FSM)
 
 Ambos deben poder explicar sin ayuda:
 - Por qué One-Hot y cuáles son los 7 estados.
-- Por qué existen `CALCULO` y `EVALUA` por separado (la resta está registrada y el signo vale un ciclo después).
-- Por qué las salidas son Moore y qué significa que cada una sea un bit de estado.
+- Por qué `CALCULO` y `EVALUA` son estados separados (la resta está registrada y el signo vale un ciclo después).
+- Por qué las salidas son Moore.
 - Cómo se decide "alcanza el crédito": con el signo de la resta, sin comparador.
-- Qué hace el reset (restaura inventario) frente a RESTART (no lo borra).
+- Reset (restaura inventario) frente a RESTART (no lo borra).
 - Recorrer en el diagrama los 4 casos: pago exacto, sobrepago, pago insuficiente y producto agotado.
 
-## 6. Cronograma propuesto (hasta el 4 dic)
+## 5. Cronograma (hasta el 4 dic)
 
 | Día | Trabajo |
 |---|---|
-| Mar 24 – Mié 25 | Repo en GitHub, montaje y pruebas del display y del teclado (A); `datapath_vending_tb` y objetivos del Makefile (J); diagrama de la FSM entre ambos |
-| Jue 26 | PnR y `make all` del `top`; primera prueba completa en placa |
-| Vie 27 – Sáb 28 | Pruebas de la sección 7 de la guía; simulaciones post-síntesis y post-PnR |
-| Dom 29 – Lun 30 | Diagramas, `top_tb`, bitácoras; display extra solo si todo lo anterior está listo |
-| Mar 1 – Jue 3 dic | Colchón (semana de finales): correcciones, repaso del oral, revisar el entregable |
+| Jue 26 | Cargar el diseño final y correr la tabla de pruebas; corregir lo que falle |
+| Vie 27 – Sáb 28 | `make postall` y capturas; diagrama de la FSM |
+| Dom 29 – Lun 30 | Diagramas restantes, bitácoras, pregunta al profesor sobre post-PnR |
+| Mar 1 – Jue 3 dic | Colchón (finales): repaso del oral y del entregable |
 | **Vie 4 dic** | **Entrega** |
 
-**Si el tiempo aprieta, recorten en este orden:** display extra → `top_tb` completo → temporizador de devolución (dejarlo en 1 ciclo) → pulido de diagramas. Lo que **no** se recorta: los 4 casos en simulación y en placa, el diagrama de la FSM y la bitácora.
-
-## 7. Decisiones ya tomadas (para no reabrirlas)
+## 6. Decisiones ya tomadas
 
 - Teclado: A, B, C = producto; 0–9 = monedas (queda la última); D = START; `*` = RESTART; `#` sin función.
-- Comentarios siempre en español, incluso en la FSM. Se ignoran las indicaciones del enunciado que no tienen sentido (por ejemplo, no conectar el bloque del display).
-- Salidas de la FSM tipo Moore; `restart` solo sale de `ENTREGADO` (en `DEVOLUCION` se espera al temporizador de ~2 s).
+- Comentarios siempre en español, incluso en la FSM. Se ignoran las indicaciones del enunciado que no tienen sentido.
+- Salidas de la FSM tipo Moore; `restart` solo sale de `ENTREGADO` (en `DEVOLUCION` se espera el temporizador de ~2 s).
 - Después de una compra la selección queda guardada: D repite la misma compra hasta presionar `*`.
+- Display extra: producto a la izquierda; en reposo muestra monedas, en entrega el vuelto y en devolución `d` y las monedas.
