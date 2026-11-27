@@ -1,7 +1,7 @@
 // Top del Proyecto 3: máquina expendedora en la Tang Nano 9K.
 // teclado -> lectura_teclas -> vending_core (FSM + datapath) -> LEDs y display (vuelto).
 // resetn (botón, activo en bajo) va directo al teclado/DeBounce; el resto usa reset = ~resetn (activo en alto).
-// Autor: Josué
+
 module top (
     input  logic       clk,
     input  logic       resetn,
@@ -21,7 +21,7 @@ module top (
     logic [3:0] in_coins;
     logic       start, restart;
     logic       entrega, devuelve;
-    logic [9:0] vuelto, valor;
+    logic [9:0] vuelto;
     logic       agotado_A, agotado_B, agotado_C;
 
     assign reset = ~resetn;
@@ -43,11 +43,18 @@ module top (
         .agotado_A(agotado_A), .agotado_B(agotado_B), .agotado_C(agotado_C)
     );
 
-    // El display muestra el vuelto solo mientras se entrega; si no, 000
-    assign valor = entrega ? vuelto : 10'd0;
+    logic [3:0] hex3, hex2, hex1, hex0, blank;
 
-    display_subsystem display (
-        .clk(clk), .reset(reset), .value(valor), .neg(1'b0), .seg(seg), .sel(sel)
+    display_vending_src fuente_display (
+        .prod_sel(prod_sel), .prod_actual(prod_actual), .in_coins(in_coins),
+        .vuelto(vuelto), .entrega(entrega), .devuelve(devuelve),
+        .hex3(hex3), .hex2(hex2), .hex1(hex1), .hex0(hex0), .blank(blank)
+    );
+
+    display_4hex display (
+        .clk(clk), .reset(reset),
+        .hex3(hex3), .hex2(hex2), .hex1(hex1), .hex0(hex0), .blank(blank),
+        .seg(seg), .sel(sel)
     );
 
     // LEDs (los internos de la placa se encienden con 0)

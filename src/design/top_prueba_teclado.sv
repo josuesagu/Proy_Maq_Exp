@@ -1,12 +1,9 @@
-// Prueba del teclado en la placa, sin la FSM ni la resta.
 // Muestra en los displays el codigo de la ULTIMA tecla detectada (0 a 15, en decimal):
 //   1 2 3 A      ->   1  2  3 10
 //   4 5 6 B      ->   4  5  6 11
 //   7 8 9 C      ->   7  8  9 12
 //   * 0 # D      ->  14  0 15 13
-// El signo "-" (digito izquierdo) se enciende mientras alguna fila del teclado esta en 0, es decir,
-// mientras la FPGA "ve" una tecla presionada, aunque el codigo no cambie.
-// Usa los mismos pines que el proyecto (proyecto2.cst): make all TOP_DESIGN=top_prueba_teclado
+//  make all TOP_DESIGN=top_prueba_teclado
 
 module top_prueba_teclado (
     input  logic       clk,

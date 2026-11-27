@@ -15,7 +15,7 @@ DEVICE = GW1NR-LV9QN88PC6/I5
 PROYECT = proyecto3
 
 #Fuentes de diseno
-#Archivos del profesor, sin modificar (el orden importa: los macros primero)
+#Archivos del profe
 PROFE = ../design/profesor
 SOURCES_PROFE = $(PROFE)/seven_seg_defs.sv $(PROFE)/rom_reg.sv $(PROFE)/bcd_converter.sv $(PROFE)/disp_hex_mux.sv $(PROFE)/DeBounce_v.v
 #Modulos propios: todos los .sv que estan en design (no entra la subcarpeta profesor)

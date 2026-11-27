@@ -1,5 +1,5 @@
 // Núcleo de la máquina: FSM + datapath + temporizador. Sin teclado ni display, para simular el sistema.
-// Autor: Josué
+
 module vending_core #(parameter CICLOS_DEV = 54_000_000) (
     input  logic       clk, reset,
     input  logic [1:0] prod_sel,

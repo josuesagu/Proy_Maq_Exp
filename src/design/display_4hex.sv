@@ -1,8 +1,7 @@
 // Despliegue de 4 dígitos hexadecimales con apagado por dígito.
 // Usa disp_hex_mux del profesor (multiplexado y decodificación) sin modificarlo.
 // disp_hex_mux entrega an y sseg activos en BAJO; aquí se apaga el dígito pedido en blank
-// y se invierte a activo en ALTO (cátodo común con NPN), igual que display_subsystem.
-// Autor: Josué
+// y se invierte a activo en ALTO (NPN), igual que display_subsystem.
 module display_4hex (
     input  logic       clk, reset,
     input  logic [3:0] hex3, hex2, hex1, hex0,
@@ -27,7 +26,7 @@ module display_4hex (
         .sseg(sseg)
     );
 
-    // Si el dígito activo está marcado en blank, todos sus segmentos se apagan (1 = apagado)
+    // Si el dígito activo está marcado en blank, sus segmentos se apagan (1 = apagado)
     always_comb begin
         sseg_blank = sseg;              // por defecto: lo que entrega disp_hex_mux
         if (an == 4'b0111 && blank[3]) sseg_blank = 8'b1111_1111;

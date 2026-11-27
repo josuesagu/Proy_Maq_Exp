@@ -4,7 +4,6 @@
 // Ancho de datos: crédito - precio va de -400 (0 monedas, C) a +750 (9 monedas, A).
 // Hacen falta 11 bits con signo (rango -1024 a +1023). El bit 10 es el signo.
 // "Alcanza el crédito" sale de ese signo, no de un comparador: falta = 1 si la resta es negativa.
-// Autor: Josué
 module datapath_vending (
     input  logic        clk, reset,
     input  logic [1:0]  prod_sel,

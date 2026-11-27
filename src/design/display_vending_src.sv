@@ -1,11 +1,10 @@
-// Fuente del display extra (25 %): decide qué se ve en cada dígito según la etapa de la compra.
+// extra, decide qué se ve en cada dígito según la etapa de la compra.
 // Protocolo del grupo (4 dígitos, de izquierda a derecha):
 //   dígito 3: producto A, b o C (apagado si no hay producto elegido)
 //   reposo (eligiendo):  [producto] [  ] [  ] [monedas]       ej.  A __ __ 2
 //   entrega:             [producto] [vuelto de 3 dígitos]      ej.  A 0 5 0
 //   devolución:          [producto] [d] [  ] [monedas]        ej.  A  d __ 2   (d = devuelto)
 // Usa bcd_converter del profesor para pasar el vuelto de binario a BCD.
-// Autor: Josué
 module display_vending_src (
     input  logic [1:0] prod_sel,        // producto elegido en el teclado
     input  logic [1:0] prod_actual,     // producto de la transacción en curso

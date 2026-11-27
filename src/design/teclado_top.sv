@@ -1,7 +1,6 @@
 // Subsistema de lectura (4.1), parte física: barrido, sincronización, DeBounce y decodificación.
 // Es el mismo cableado de insercion_top del Proyecto 2, sin la FSM ni los registros de números.
 // Salida: la tecla presionada (b_presionado) y un pulso de 1 ciclo (s_aviso).
-// Autor: Ariel / Josué. Reutiliza los módulos del P2 sin cambios.
 module teclado_top (
     input  logic       clk_fpga,
     input  logic       reset_B,        // activo en bajo (botón)

@@ -1,7 +1,5 @@
 //metaestabilidad de las filas, sincronizar las filas con el reloj de la FPGA
 
-//metaestabilidad de las filas, sincronizar las filas con el reloj de la FPGA
-
 module sincronizar_filas (
     input  logic       clk_fpga,
     input  logic       reset_B,
@@ -15,8 +13,8 @@ module sincronizar_filas (
     
     always_ff @(posedge clk_fpga or negedge reset_B) begin
         if (reset_B == 1'b0) begin
-            f_etapa1 <= 4'b1111; // CORREGIDO: antes era 4'b0000. Las filas son activas en bajo, el reposo (sin tecla) es 1111
-            f_sinc   <= 4'b1111; // CORREGIDO: con 0000 el reset parecia "todas las teclas presionadas"
+            f_etapa1 <= 4'b1111; // antes era 4'b0000. Las filas son activas en bajo, el reposo (sin tecla) es 1111
+            f_sinc   <= 4'b1111; // con 0000 el reset parecia "todas las teclas presionadas"
 
         end
         else begin

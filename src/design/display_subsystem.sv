@@ -1,15 +1,12 @@
-// Subsistema de despliegue: número de 0 a 999 con signo en 4 displays de cátodo común
-// Autor: (nombre)
-//
+// Subsistema de despliegue: número de 0 a 999 con signo en 4 displays de catod común
 // Usa, sin modificar, los módulos del profesor:
 //   bcd_converter (OBL-3): binario -> BCD
 //   disp_hex_mux  (OBL-2): multiplexado de 4 dígitos y decodificación a 7 segmentos
 //
 // El disp_hex_mux del profesor entrega las señales activas en BAJO (an y sseg).
-// Con displays de cátodo común hace falta activo en ALTO, así que aquí se invierten.
+// Con displays de catod común hace falta activo en ALTO, así que aquí se invierten.
 // Además disp_hex_mux solo muestra dígitos 0-F, así que el signo menos del dígito
 // de la izquierda se pone aquí (solo segmento g) o se apaga ese dígito.
-//
 // Orden de bits de seg: {a, b, c, d, e, f, g} (bit 6 = a ... bit 0 = g)
 module display_subsystem (
     input  logic       clk, reset,
@@ -24,13 +21,13 @@ module display_subsystem (
     logic [7:0]  sseg;            // salida de disp_hex_mux (activa en bajo)
     logic [7:0]  sseg_sign;       // sseg con el dígito de signo corregido
 
-    // binario -> BCD (código del profesor)
+    // binario -> BCD (código del profe)
     bcd_converter #(.N(10), .M(12)) bcd_unit (
         .input_bin(value),
         .output_bcd(bcd)
     );
 
-    // multiplexado y decodificación a 7 segmentos (código del profesor)
+    // multiplexado y decodificación a 7 segmentos (código del profe)
     disp_hex_mux mux_unit (
         .clk(clk),
         .reset(reset),
@@ -48,7 +45,7 @@ module display_subsystem (
         sseg_sign = sseg;                          // por defecto: lo que entrega disp_hex_mux
         if (an == 4'b0111) begin
             if (neg) sseg_sign = 8'b1111_1110;     // solo segmento g
-            else     sseg_sign = 8'b1111_1111;     // todo apagado
+            else     sseg_sign = 8'b1111_1111;     // apagado
         end
     end
 

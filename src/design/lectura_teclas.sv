@@ -2,7 +2,6 @@
 //   A, B, C  -> producto (01, 10, 11)       0-9 -> monedas de 100 (queda la última)
 //   D        -> start (solo si ya hay producto)       * -> restart (borra la selección)
 // start y restart salen registrados, pulsos de 1 ciclo.
-// Autor: Ariel / Josué
 module lectura_teclas (
     input  logic       clk, reset,          // reset activo en alto
     input  logic [4:0] b_presionado,

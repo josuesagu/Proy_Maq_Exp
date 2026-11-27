@@ -1,7 +1,5 @@
 //detector de la tecla/boton presionado
 
-//detector de la tecla/boton presionado
-
 module deco_teclado (
     input  logic       clk_fpga,
     input  logic       reset_B,

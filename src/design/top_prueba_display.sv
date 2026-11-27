@@ -1,15 +1,6 @@
 // Top de PRUEBA para el montaje: solo displays, sin teclado
-// Autor: (nombre)
-//
-// Sirve para comprobar el cableado de los displays antes de conectar el teclado.
-// Muestra, cambiando cada ~1.2 s, estos valores:
-//   888  (todos los segmentos encendidos)
-//   -123 (signo y orden de los dígitos)
-//   456
-//   -999
-// Si un dígito sale en otra posición, se intercambian los pines sel en el .cst.
-//
 // Uso:  make all TOP_DESIGN=top_prueba_display CONSTRAINTS=../constr/prueba_display.cst
+
 module top_prueba_display #(
     parameter BIT_CAMBIO = 25      // bit del contador que cambia el valor: 2^25 / 27 MHz = 1.2 s
 ) (

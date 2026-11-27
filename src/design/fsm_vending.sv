@@ -1,6 +1,4 @@
-// Subsistema FSM (4.2): máquina expendedora, One-Hot, salidas Moore (cada salida = un bit de estado).
-// Autor: Ariel / Josué
-//
+// Subsistema FSM (4.2): máquina expendedora, One-Hot, salidas Moore (cada salida = un bit de estado)
 // Ecuaciones de siguiente estado (~ = negación, · = AND, + = OR):
 //   REPOSO_sig     = REPOSO·~start + ENTREGADO·restart + DEVOLUCION·fin_timer
 //   CARGA_sig      = REPOSO·start
